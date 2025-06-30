@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PCOD Tools - ReMindHer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+  <!-- 1. Period Prediction -->
+  {% if session['lang'] == 'hi' %}
+    <h3>अगली अवधि की तारीख की भविष्यवाणी करें</h3>
+  {% elif session['lang'] == 'bn' %}
+    <h3>পরবর্তী পিরিয়ডের তারিখ ভবিষ্যদ্বাণী করুন</h3>
+  {% else %}
+    <h3>Predict Next Period Date</h3>
+  {% endif %}
+
+  {% if next_period %}
+    {% if session['lang'] == 'hi' %}
+      <p><strong>अगली अवधि की तारीख:</strong> {{ next_period }}</p>
+    {% elif session['lang'] == 'bn' %}
+      <p><strong>পরবর্তী পিরিয়ডের তারিখ:</strong> {{ next_period }}</p>
+    {% else %}
+      <p><strong>Next Period Date:</strong> {{ next_period }}</p>
+    {% endif %}
+  {% endif %}
+
+  <!-- 2. PCOD Advice -->
+  {% if session['lang'] == 'hi' %}
+    <h3>2. पीसीओडी सलाह</h3>
+  {% elif session['lang'] == 'bn' %}
+    <h3>2. PCOD পরামর্শ</h3>
+  {% else %}
+    <h3>2. PCOD Advice</h3>
+  {% endif %}
+<form method="post" action="/advice">
+    <!-- Common Issues Dropdown -->
+    {% if session['lang'] == 'hi' %}
+      <label>एक सामान्य समस्या चुनें:</label><br>
+    {% elif session['lang'] == 'bn' %}
+      <label>একটি সাধারণ সমস্যা নির্বাচন করুন:</label><br>
+    {% else %}
+      <label>Select a common issue:</label><br>
+    {% endif %}
+    
+    <select name="common_issue">
+      {% if session['lang'] == 'hi' %}
+        <option value="">-- कोई नहीं --</option>
+        <option value="irregular periods">अनियमित पीरियड्स</option>
+        <option value="weight gain">वजन बढ़ना</option>
+        <option value="mood swings">मूड स्विंग</option>
+        <option value="pain or cramps">दर्द या ऐंठन</option>
+      {% elif session['lang'] == 'bn' %}
+        <option value="">-- কোনটিই নয় --</option>
+        <option value="irregular periods">অনিয়মিত পিরিয়ড</option>
+        <option value="weight gain">ওজন বৃদ্ধি</option>
+        <option value="mood swings">মুড সুইং</option>
+        <option value="pain or cramps">ব্যথা বা খিঁচুনি</option>
+      {% else %}
+        <option value="">-- None --</option>
+        <option value="irregular periods">Irregular Periods</option>
+        <option value="weight gain">Weight Gain</option>
+        <option value="mood swings">Mood Swings</option>
+        <option value="pain or cramps">Pain or Cramps</option>
+      {% endif %}
+    </select><br><br>
+ <!-- Custom Problem Textarea -->
+    {% if session['lang'] == 'hi' %}
+      <label>या अपनी समस्या लिखें:</label><br>
+      <textarea name="user_problem" placeholder="जैसे, मुझे सूजन और तनाव महसूस होता है"></textarea><br>
+    {% elif session['lang'] == 'bn' %}
+      <label>অথবা আপনার সমস্যা টাইপ করুন:</label><br>
+      <textarea name="user_problem" placeholder="যেমন, আমি ফুলে যাওয়া এবং চাপ অনুভব করছি"></textarea><br>
+    {% else %}
+      <label>Or type your problem:</label><br>
+      <textarea name="user_problem" placeholder="e.g., I feel bloated and stressed"></textarea><br>
+    {% endif %}
+
+    <!-- Yoga Suggestion Radio -->
+    {% if session['lang'] == 'hi' %}
+      <label>क्या आप योग सुझाव भी चाहते हैं?</label><br>
+      <input type="radio" name="want_yoga" value="yes" required> हाँ
+      <input type="radio" name="want_yoga" value="no" required> नहीं <br><br>
+    {% elif session['lang'] == 'bn' %}
+      <label>আপনি কি যোগব্যায়ামের পরামর্শও চান?</label><br>
+      <input type="radio" name="want_yoga" value="yes" required> হ্যাঁ
+      <input type="radio" name="want_yoga" value="no" required> না <br><br>
+    {% else %}
+      <label>Do you want yoga suggestions too?</label><br>
+      <input type="radio" name="want_yoga" value="yes" required> Yes
+      <input type="radio" name="want_yoga" value="no" required> No <br><br>
+    {% endif %}
+
+ <!-- Submit Button -->
+    {% if session['lang'] == 'hi' %}
+      <button type="submit">सलाह प्राप्त करें</button>
+    {% elif session['lang'] == 'bn' %}
+      <button type="submit">পরামর্শ পান</button>
+    {% else %}
+      <button type="submit">Get Advice</button>
+    {% endif %}
+  </form>
+
+  <!-- Advice Results -->
+  {% if advice %}
+    {% if session['lang'] == 'hi' %}
+      <p><strong>सलाह:</strong> {{ advice }}</p>
+    {% elif session['lang'] == 'bn' %}
+      <p><strong>পরামর্শ:</strong> {{ advice }}</p>
+    {% else %}
+      <p><strong>Advice:</strong> {{ advice }}</p>
+    {% endif %}
+  {% endif %}
+  
+  {% if yoga %}
+    {% if session['lang'] == 'hi' %}
+      <p><strong>योग सुझाव:</strong> {{ yoga }}</p>
+    {% elif session['lang'] == 'bn' %}
+      <p><strong>যোগব্যায়ামের পরামর্শ:</strong> {{ yoga }}</p>
+    {% else %}
+      <p><strong>Yoga Suggestions:</strong> {{ yoga }}</p>
+    {% endif %}
+  {% endif %}
+<!-- 3. Diet Plan -->
+  {% if session['lang'] == 'hi' %}
+    <h3>3. पीसीओडी आहार योजना</h3>
+  {% elif session['lang'] == 'bn' %}
+    <h3>3. PCOD ডায়েট প্ল্যান</h3>
+  {% else %}
+    <h3>3. PCOD Diet Plans</h3>
+  {% endif %}
+
+  <form method="post" action="/diet">
+    {% if session['lang'] == 'hi' %}
+      <input type="number" name="age" placeholder="आपकी उम्र" required>
+      <input type="text" name="disease" placeholder="अन्य बीमारियाँ (मधुमेह, थायरॉयड...)" required>
+    {% elif session['lang'] == 'bn' %}
+      <input type="number" name="age" placeholder="আপনার বয়স" required>
+      <input type="text" name="disease" placeholder="অন্যান্য অসুস্থতা (ডায়াবেটিস, থাইরয়েড...)" required>
+    {% else %}
+      <input type="number" name="age" placeholder="Your Age" required>
+      <input type="text" name="disease" placeholder="Any other illness (diabetes, thyroid...)" required>
+    {% endif %}
+ {% if session['lang'] == 'hi' %}
+      <button type="submit">आहार योजना प्राप्त करें</button>
+    {% elif session['lang'] == 'bn' %}
+      <button type="submit">ডায়েট প্ল্যান পান</button>
+    {% else %}
+      <button type="submit">Get Diet Plans</button>
+    {% endif %}
+  </form>
+
+  {% if diet %}
+    {% if session['lang'] == 'hi' %}
+      <p><strong>सुझाया गया आहार:</strong> {{ diet }}</p>
+    {% elif session['lang'] == 'bn' %}
+      <p><strong>প্রস্তাবিত ডায়েট:</strong> {{ diet }}</p>
+    {% else %}
+      <p><strong>Recommended Diet:</strong> {{ diet }}</p>
+    {% endif %}
+  {% endif %}
+
+  <!-- 4. Yoga Section -->
+  {% if session['lang'] == 'hi' %}
+    <h3>4. पीसीओडी के लिए योग</h3>
+  {% elif session['lang'] == 'bn' %}
+    <h3>4. PCOD-এর জন্য যোগব্যায়াম</h3>
+  {% else %}
+    <h3>4. Yoga for PCOD</h3>
+  {% endif %}
+  {% if yoga %}
+    <div class="container">
+      {% if session['lang'] == 'hi' %}
+        <p><strong>आपके लक्षणों के आधार पर सुझाया गया योग:</strong></p>
+      {% elif session['lang'] == 'bn' %}
+        <p><strong>আপনার লক্ষণের উপর ভিত্তি করে প্রস্তাবিত যোগব্যায়াম:</strong></p>
+      {% else %}
+        <p><strong>Suggested Yoga Based on Your Symptoms:</strong></p>
+      {% endif %}
+      <p style="font-size: 1.1em; color: #cc6866">{{ yoga }}</p>
+    </div>
+  {% else %}
+    {% if session['lang'] == 'hi' %}
+      <p>ऊपर एक लक्षण चुनकर या अपनी समस्या दर्ज करके व्यक्तिगत योग सुझाव प्राप्त करें।</p>
+    {% elif session['lang'] == 'bn' %}
+      <p>উপরে একটি লক্ষণ নির্বাচন করে বা আপনার সমস্যা প্রবেশ করে ব্যক্তিগতকৃত যোগব্যায়ামের পরামর্শ পান।</p>
+    {% else %}
+      <p>Get personalized yoga suggestions by selecting a symptom or entering your issue above.</p>
+    {% endif %}
+  {% endif %}
+
+  <!-- 5. Pregnancy Section -->
+  {% if session['lang'] == 'hi' %}
+    <h3>5. पीसीओडी के साथ गर्भवती होना</h3>
+  {% elif session['lang'] == 'bn' %}
+    <h3>5. PCOD সহ গর্ভবতী হওয়া</h3>
+  {% else %}
+    <h3>5. Get Pregnant with PCOD</h3>
+  {% endif %}
+ <form method="post" action="/pregnancy">
+    {% if session['lang'] == 'hi' %}
+      <label>फिर से अपने लक्षण दर्ज करें:</label><br>
+      <textarea name="pregnancy_symptoms" placeholder="जैसे, अनियमित पीरियड्स, अधिक वजन, तनाव" required></textarea><br>
+    {% elif session['lang'] == 'bn' %}
+      <label>আবার আপনার লক্ষণগুলি লিখুন:</label><br>
+      <textarea name="pregnancy_symptoms" placeholder="যেমন, অনিয়মিত পিরিয়ড, উচ্চ ওজন, চাপ" required></textarea><br>
+    {% else %}
+      <label>Enter your symptoms again:</label><br>
+      <textarea name="pregnancy_symptoms" placeholder="e.g., irregular periods, high weight, stress" required></textarea><br>
+    {% endif %}
+    
+    {% if session['lang'] == 'hi' %}
+      <button type="submit">गर्भावस्था जोखिम जांचें</button>
+    {% elif session['lang'] == 'bn' %}
+      <button type="submit">গর্ভাবস্থার ঝুঁকি পরীক্ষা করুন</button>
+    {% else %}
+      <button type="submit">Check Pregnancy Risk</button>
+    {% endif %}
+  </form>
+
+  {% if pregnancy_result %}
+    {% if session['lang'] == 'hi' %}
+      <p><strong>भविष्यवाणी:</strong> {{ pregnancy_result }}</p>
+    {% elif session['lang'] == 'bn' %}
+      <p><strong>ভবিষ্যদ্বাণী:</strong> {{ pregnancy_result }}</p>
+    {% else %}
+      <p><strong>Prediction:</strong> {{ pregnancy_result }}</p>
+    {% endif %}
+{% endif %}
+
+
+ <!-- 6. Gynecologists Section -->
+  {% if session['lang'] == 'hi' %}
+    <h3>6. पास के स्त्री रोग विशेषज्ञ खोजें</h3>
+    <p>अपने शहर के आधार पर स्त्री रोग विशेषज्ञों की सूची देखने के लिए नीचे क्लिक करें।</p>
+  {% elif session['lang'] == 'bn' %}
+    <h3>6. কাছাকাছি স্ত্রীরোগ বিশেষজ্ঞ খুঁজুন</h3>
+    <p>আপনার শহরের উপর ভিত্তি করে স্ত্রীরোগ বিশেষজ্ঞদের তালিকা দেখতে নীচে ক্লিক করুন।</p>
+  {% else %}
+    <h3>6. Find Nearby Gynecologists</h3>
+    <p>Click below to see a list of gynecologists based on your city.</p>
+  {% endif %}
+  
+  <a href="/gynec">
+    {% if session['lang'] == 'hi' %}
+      <button>डॉक्टर दिखाएं</button>
+    {% elif session['lang'] == 'bn' %}
+      <button>ডাক্তার দেখান</button>
+    {% else %}
+      <button>Show Doctors</button>
+    {% endif %}
+  </a>
+
+  <!-- Continue Button -->
+  <div style="text-align: right; margin-top: 20px;">
+    <a href="/thankyou">
+      {% if session['lang'] == 'hi' %}
+        <button>जारी रखें</button>
+      {% elif session['lang'] == 'bn' %}
+        <button>চালিয়ে যান</button>
+      {% else %}
+        <button>Continue</button>
+         {% endif %}
+    </a>
+  </div>
+</div>
+   
+      
+</body>
+</html>
